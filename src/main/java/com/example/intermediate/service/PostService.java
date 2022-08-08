@@ -73,8 +73,6 @@ public class PostService {
 
     List<Comment> commentList = commentRepository.findAllByPost(post);
 
-    System.out.println("[게시글 조회] 해당 게시물의 댓글 리스트 (commentList): " + commentList);
-
     List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
     for (Comment comment : commentList) {
@@ -89,13 +87,12 @@ public class PostService {
       );
     }
 
-    System.out.println("[게시글 조회] 해당 게시물의 댓글 리스트 DTO (commentResponseDtoList): " + commentResponseDtoList);
-
     return ResponseDto.success(
         PostResponseDto.builder()
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
+                .imgUrl(post.getImgUrl())
             .commentResponseDtoList(commentResponseDtoList)
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
