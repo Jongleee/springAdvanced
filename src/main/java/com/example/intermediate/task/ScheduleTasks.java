@@ -21,7 +21,7 @@ public class ScheduleTasks {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
-    // corn 으로 초(0-59) 분(0-59) 시간(0-23) 일(1-31) 월(1-12) 요일(1-7)
+    // cron 으로 초(0-59) 분(0-59) 시간(0-23) 일(1-31) 월(1-12) 요일(1-7)
     @Scheduled(cron="0 0 1 * * *") // 매일 오전 1시
 
 //    @Scheduled(cron="*/10 * * * * *") // 테스트용 10초마다
