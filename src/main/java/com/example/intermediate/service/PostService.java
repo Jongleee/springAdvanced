@@ -1,5 +1,6 @@
 package com.example.intermediate.service;
 
+import com.example.intermediate.controller.response.AllPostResponseDto;
 import com.example.intermediate.controller.response.CommentResponseDto;
 import com.example.intermediate.controller.response.PostResponseDto;
 import com.example.intermediate.domain.Comment;
@@ -92,7 +93,7 @@ public class PostService {
             .id(post.getId())
             .title(post.getTitle())
             .content(post.getContent())
-                .imgUrl(post.getImgUrl())
+            .imgUrl(post.getImgUrl())
             .commentResponseDtoList(commentResponseDtoList)
             .author(post.getMember().getNickname())
             .createdAt(post.getCreatedAt())
@@ -102,9 +103,31 @@ public class PostService {
   }
 
   @Transactional(readOnly = true)
-  public ResponseDto<?> getAllPost() {
-    return ResponseDto.success(postRepository.findAllByOrderByModifiedAtDesc());
+  public ResponseDto<?> getAllPost() {List<AllPostResponseDto> AllPostList= new ArrayList<>();
+    List<Post> postList = postRepository.findAllByOrderByModifiedAtDesc();
+    for (Post post : postList) {
+//      List<좋아요 엔티티> postLikeList = 좋아요Repository.findAllByPost(post);
+//      int likeCount = postLikeList.size();
+      int commentsNum = commentRepository.findAllByPost(post).size();
+      AllPostList.add(
+              AllPostResponseDto.builder()
+                      .id(post.getId())
+                      .title(post.getTitle())
+                      .author(post.getMember().getNickname())
+                      .content(post.getContent())
+                      .imgUrl(post.getImgUrl())
+//                      .likes(likeCount)
+                      .commentsNum(commentsNum)
+                      .createdAt(post.getCreatedAt())
+                      .modifiedAt(post.getModifiedAt())
+                      .build()
+      );
+    }
+    return ResponseDto.success(AllPostList);
   }
+
+//    return ResponseDto.success(postRepository.findAllByOrderByModifiedAtDesc());
+//  }
 
   @Transactional
   public ResponseDto<Post> updatePost(Long id, PostRequestDto requestDto, HttpServletRequest request) {
