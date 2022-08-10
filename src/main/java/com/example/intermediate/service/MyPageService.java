@@ -94,7 +94,7 @@ public class MyPageService {
                                 .userId(subComment.getMember().getId())
                                 .subCommentId(subComment.getId())
                                 .author(subComment.getMember().getNickname())
-                                .subComment(subComment.getSubContent())
+                                .subComment(subComment.getContent())
                                 .createdAt(subComment.getCreatedAt())
                                 .modifiedAt(subComment.getModifiedAt())
                                 .build()
