@@ -28,11 +28,8 @@ import java.util.Optional;
 public class CommentService {
 
   private final CommentRepository commentRepository;
-
   private final TokenProvider tokenProvider;
   private final PostService postService;
-
-
   private final SubCommentRepository subCommentRepository;
 
 
@@ -87,7 +84,6 @@ public class CommentService {
     List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
     for (Comment comment : commentList) {
-
       // 대댓글 리스트
       List<SubComment> subCommentList = subCommentRepository.findAllByComment(comment);
       List<SubCommentResponseDto> subCommentResponseDtoList = new ArrayList<>();
@@ -97,7 +93,7 @@ public class CommentService {
           SubCommentResponseDto.builder()
                   .id(subComment.getId())
                   .author(subComment.getMember().getNickname())
-                  .content(subComment.getContent())
+                  .content(subComment.getSubContent())
                   .createdAt(subComment.getCreatedAt())
                   .modifiedAt(subComment.getModifiedAt())
                   .build()
