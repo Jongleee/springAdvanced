@@ -1,39 +1,27 @@
 package com.example.intermediate.jwt;
 
+import com.example.intermediate.controller.request.TokenDto;
+import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.domain.Member;
 import com.example.intermediate.domain.RefreshToken;
 import com.example.intermediate.domain.UserDetailsImpl;
-import com.example.intermediate.controller.response.ResponseDto;
-import com.example.intermediate.controller.request.TokenDto;
 import com.example.intermediate.repository.RefreshTokenRepository;
-import com.example.intermediate.service.UserDetailsServiceImpl;
 import com.example.intermediate.shared.Authority;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SecurityException;
-import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.security.Key;
+import java.util.Date;
+import java.util.Optional;
 
 @Slf4j
 @Component
@@ -41,7 +29,7 @@ public class TokenProvider {
 
   private static final String AUTHORITIES_KEY = "auth";
   private static final String BEARER_PREFIX = "Bearer ";
-  private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;            //30분
+  private static final long ACCESS_TOKEN_EXPIRE_TIME =  1000 * 60 * 30;            //30분
   private static final long REFRESH_TOKEN_EXPRIRE_TIME = 1000 * 60 * 60 * 24 * 7;     //7일
 
   private final Key key;
@@ -155,4 +143,5 @@ public class TokenProvider {
     refreshTokenRepository.delete(refreshToken);
     return ResponseDto.success("success");
   }
+
 }
