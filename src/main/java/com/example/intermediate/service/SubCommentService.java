@@ -59,7 +59,7 @@ public class SubCommentService {
                 .member(member)
                 .post(post)
                 .comment(comment)
-                .content(requestDto.getContent())
+                .subContent(requestDto.getContent())
                 .build();
         
         subCommentRepository.save(subComment);
@@ -67,7 +67,7 @@ public class SubCommentService {
             SubCommentResponseDto.builder()
                     .id(subComment.getId())
                     .author(subComment.getMember().getNickname())
-                    .content(subComment.getContent())
+                    .content(subComment.getSubContent())
                     .createdAt(subComment.getCreatedAt())
                     .modifiedAt(subComment.getModifiedAt())
                     .build()
@@ -82,7 +82,6 @@ public class SubCommentService {
         }
 
         List<SubComment> subCommentList = subCommentRepository.findAllByComment(comment);  // 여기에서
-        
         List<SubCommentResponseDto> subCommentResponseDtoList = new ArrayList<>();
 
         for (SubComment subComment : subCommentList) {
@@ -90,7 +89,7 @@ public class SubCommentService {
                     SubCommentResponseDto.builder()
                             .id(subComment.getId())
                             .author(subComment.getMember().getNickname())
-                            .content(subComment.getContent())
+                            .content(subComment.getSubContent())
                             .createdAt(subComment.getCreatedAt())
                             .modifiedAt(subComment.getModifiedAt())
                             .build()
@@ -135,7 +134,7 @@ public class SubCommentService {
                 SubCommentResponseDto.builder()
                         .id(subComment.getId())
                         .author(subComment.getMember().getNickname())
-                        .content(subComment.getContent())
+                        .content(subComment.getSubContent())
                         .createdAt(subComment.getCreatedAt())
                         .modifiedAt(subComment.getModifiedAt())
                         .build()
