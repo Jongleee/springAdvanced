@@ -4,18 +4,17 @@ import com.example.intermediate.controller.request.CommentRequestDto;
 
 import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "comment")
 public class Comment extends Timestamped {
 
   @Id
@@ -36,12 +35,9 @@ public class Comment extends Timestamped {
   @Column(nullable = false)
   private String content;
 
-  @Column(nullable = true)
-  private Long like;
+  @Column
+  private Long likes;
 
-//  public void create(CommentRequestDto commentRequestDto) {
-//    this.like = "6";
-//  }
   public void update(CommentRequestDto commentRequestDto) {
     this.content = commentRequestDto.getContent();
   }
@@ -49,4 +45,9 @@ public class Comment extends Timestamped {
   public boolean validateMember(Member member) {
     return !this.member.equals(member);
   }
+
+  public void updateLikes(Long likes){
+    this.likes = likes;
+  }
+
 }

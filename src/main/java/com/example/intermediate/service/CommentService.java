@@ -13,6 +13,7 @@ import com.example.intermediate.domain.SubComment;
 
 import com.example.intermediate.jwt.TokenProvider;
 import com.example.intermediate.repository.CommentRepository;
+import com.example.intermediate.repository.LikeRepository;
 import com.example.intermediate.repository.SubCommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,8 @@ public class CommentService {
   private final TokenProvider tokenProvider;
   private final PostService postService;
   private final SubCommentRepository subCommentRepository;
+
+  private final LikeRepository likeRepository;
 
 
   @Transactional
@@ -55,10 +58,12 @@ public class CommentService {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
 
+
     Comment comment = Comment.builder()
         .member(member)
         .post(post)
         .content(requestDto.getContent())
+        .likes(0L)
         .build();
     commentRepository.save(comment);
     return ResponseDto.success(
@@ -66,9 +71,9 @@ public class CommentService {
             .id(comment.getId())
             .author(comment.getMember().getNickname())
             .content(comment.getContent())
+            .likes(comment.getLikes())
             .createdAt(comment.getCreatedAt())
             .modifiedAt(comment.getModifiedAt())
-            .like(comment.getLike())
             .build()
     );
   }
@@ -84,6 +89,7 @@ public class CommentService {
     List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
     for (Comment comment : commentList) {
+
       // 대댓글 리스트
       List<SubComment> subCommentList = subCommentRepository.findAllByComment(comment);
       List<SubCommentResponseDto> subCommentResponseDtoList = new ArrayList<>();
@@ -94,6 +100,7 @@ public class CommentService {
                   .id(subComment.getId())
                   .author(subComment.getMember().getNickname())
                   .content(subComment.getContent())
+                  .likes(subComment.getLikes())
                   .createdAt(subComment.getCreatedAt())
                   .modifiedAt(subComment.getModifiedAt())
                   .build()
@@ -106,13 +113,15 @@ public class CommentService {
               .author(comment.getMember().getNickname())
               .content(comment.getContent())
               .subCommentResponseDtoList(subCommentResponseDtoList) // 여기에 대댓글 넣기
+              .likes(comment.getLikes())
               .createdAt(comment.getCreatedAt())
               .modifiedAt(comment.getModifiedAt())
-              .like(comment.getLike())
               .build()
       );
     }
-    return ResponseDto.success(commentResponseDtoList);
+    return ResponseDto.success(
+            commentResponseDtoList
+    );
   }
 
   @Transactional
@@ -152,6 +161,7 @@ public class CommentService {
             .id(comment.getId())
             .author(comment.getMember().getNickname())
             .content(comment.getContent())
+            .likes(comment.getLikes())
             .createdAt(comment.getCreatedAt())
             .modifiedAt(comment.getModifiedAt())
             .build()
@@ -201,12 +211,13 @@ public class CommentService {
     }
     return tokenProvider.getMemberFromAuthentication();
   }
+
   public List<Comment> getAllLikes(UserDetailsImpl member_Id, Long id) {
-    return commentRepository.findByLike(member_Id);
+    return commentRepository.findByLikes(member_Id);
   }
   @Transactional(readOnly = true)
   public ResponseDto<?> getComment() {
     return ResponseDto.success(commentRepository.findAllByOrderByModifiedAtDesc());
   }
-}
 
+}
