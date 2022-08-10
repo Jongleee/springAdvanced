@@ -2,18 +2,17 @@ package com.example.intermediate.domain;
 
 import com.example.intermediate.controller.request.CommentRequestDto;
 import com.example.intermediate.controller.request.SubCommentRequestDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "subComment")
 public class SubComment extends Timestamped {
 
     @Id
@@ -33,6 +32,9 @@ public class SubComment extends Timestamped {
     private Comment comment;
 
     @Column
+    private Long likes;
+
+    @Column
     private String content;
 
     public void update(SubCommentRequestDto subCommentRequestDto) {
@@ -41,6 +43,10 @@ public class SubComment extends Timestamped {
 
     public boolean validateMember(Member member) {
         return !this.member.equals(member);
+    }
+
+    public void updateLikes(Long likes){
+        this.likes = likes;
     }
 
 }

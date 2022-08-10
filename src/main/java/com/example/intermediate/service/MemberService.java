@@ -2,7 +2,6 @@ package com.example.intermediate.service;
 
 import com.example.intermediate.controller.response.MemberResponseDto;
 import com.example.intermediate.domain.Member;
-import com.example.intermediate.domain.Post;
 import com.example.intermediate.domain.RefreshToken;
 import com.example.intermediate.controller.request.LoginRequestDto;
 import com.example.intermediate.controller.request.MemberRequestDto;
@@ -135,4 +134,5 @@ public class MemberService {
     response.addHeader("Refresh-Token", tokenDto.getRefreshToken());
     response.addHeader("Access-Token-Expire-Time", tokenDto.getAccessTokenExpiresIn().toString());
   }
+
 }
