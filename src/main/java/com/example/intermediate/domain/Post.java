@@ -2,26 +2,17 @@ package com.example.intermediate.domain;
 
 import com.example.intermediate.controller.request.PostRequestDto;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import javax.persistence.*;
+
+import lombok.*;
 
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "post")
 public class Post extends Timestamped {
 
   @Id
@@ -35,12 +26,16 @@ public class Post extends Timestamped {
   private String content;
   @Column
   private String imgUrl;
+
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Comment> comments;
 
   @JoinColumn(name = "member_id", nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
+
+  @Column
+  private Long likes;
 
   public void update(PostRequestDto postRequestDto) {
     this.title = postRequestDto.getTitle();
@@ -50,6 +45,11 @@ public class Post extends Timestamped {
 
   public boolean validateMember(Member member) {
     return !this.member.equals(member);
+  }
+
+
+  public void updateLikes(Long likes){
+    this.likes = likes;
   }
 
 }
