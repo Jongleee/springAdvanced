@@ -59,7 +59,7 @@ public class SubCommentService {
                 .member(member)
                 .post(post)
                 .comment(comment)
-                .subContent(requestDto.getContent())
+                .content(requestDto.getContent())
                 .build();
         
         subCommentRepository.save(subComment);
@@ -67,7 +67,7 @@ public class SubCommentService {
             SubCommentResponseDto.builder()
                     .id(subComment.getId())
                     .author(subComment.getMember().getNickname())
-                    .content(subComment.getSubContent())
+                    .content(subComment.getContent())
                     .createdAt(subComment.getCreatedAt())
                     .modifiedAt(subComment.getModifiedAt())
                     .build()
@@ -89,7 +89,7 @@ public class SubCommentService {
                     SubCommentResponseDto.builder()
                             .id(subComment.getId())
                             .author(subComment.getMember().getNickname())
-                            .content(subComment.getSubContent())
+                            .content(subComment.getContent())
                             .createdAt(subComment.getCreatedAt())
                             .modifiedAt(subComment.getModifiedAt())
                             .build()
@@ -134,7 +134,7 @@ public class SubCommentService {
                 SubCommentResponseDto.builder()
                         .id(subComment.getId())
                         .author(subComment.getMember().getNickname())
-                        .content(subComment.getSubContent())
+                        .content(subComment.getContent())
                         .createdAt(subComment.getCreatedAt())
                         .modifiedAt(subComment.getModifiedAt())
                         .build()

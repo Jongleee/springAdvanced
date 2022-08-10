@@ -93,7 +93,7 @@ public class CommentService {
           SubCommentResponseDto.builder()
                   .id(subComment.getId())
                   .author(subComment.getMember().getNickname())
-                  .content(subComment.getSubContent())
+                  .content(subComment.getContent())
                   .createdAt(subComment.getCreatedAt())
                   .modifiedAt(subComment.getModifiedAt())
                   .build()
