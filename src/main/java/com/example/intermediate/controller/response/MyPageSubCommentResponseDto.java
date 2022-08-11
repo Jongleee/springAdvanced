@@ -17,6 +17,7 @@ public class MyPageSubCommentResponseDto {
     private Long userId;
     private Long subCommentId;
     private String author;
+    private Long likes;
     private String subComment;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
