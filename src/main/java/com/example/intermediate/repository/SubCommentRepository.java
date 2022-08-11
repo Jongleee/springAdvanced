@@ -11,6 +11,5 @@ public interface SubCommentRepository extends JpaRepository<SubComment, Long> {
 
     List<SubComment> findAllByComment(Comment comment);
     List<SubComment> findAllByMember(Member member);
-    List<SubComment> findAllByLikes(Long likes);
     List<SubComment> findAllByMember_Id(Long memberColumn);
 }

@@ -12,7 +12,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface PostRepository extends JpaRepository<Post, Long> {
   List<Post> findAllByOrderByModifiedAtDesc();
   List<Post> findALlByMember(Member member);
-  List<Post> findAllByLikes(Long likes);
 
   List<Post> findAllByMember_Id(Long memberColumn);
 
