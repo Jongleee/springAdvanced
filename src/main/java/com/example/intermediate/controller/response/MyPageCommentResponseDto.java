@@ -17,6 +17,7 @@ public class MyPageCommentResponseDto {
     private Long userId;
     private Long commentId;
     private String author;
+    private Long likes;
     private String comment;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;

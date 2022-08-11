@@ -72,6 +72,7 @@ public class SecurityConfiguration {
                 .antMatchers("/api/post/**").permitAll()
                 .antMatchers("/api/comment/**").permitAll()
                 .antMatchers("/api/subcomment/**").permitAll()
+                .antMatchers("/api/likes").permitAll()
                 .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
 

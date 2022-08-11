@@ -16,7 +16,9 @@ public class MyPagePostResponseDto {
     private Long userId;
     private Long postId;
     private String author;
+    private Long likes;
     private String title;
+    private String imgUrl;
     private String postContent;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
