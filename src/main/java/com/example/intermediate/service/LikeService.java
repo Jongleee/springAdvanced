@@ -56,55 +56,8 @@ public class LikeService {
                 .post(post)
                 .build();
         likeRepository.save(likePost);
-
         Long likes = likeRepository.countAllByPostId(post.getId());
-
         post.updateLikes(likes);
-
-
-
-        //댓글 리스트의 dto화
-//        List<Comment> commentList = commentRepository.findAllByPost(post);
-//        List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
-//
-//
-//        for (Comment comment : commentList) {
-//            List<SubComment> subCommentList = subCommentRepository.findAllByComment(comment);
-//            List<SubCommentResponseDto> subCommentResponseDtoList = new ArrayList<>();
-//
-//            for (SubComment subComment : subCommentList) {
-//                subCommentResponseDtoList.add(
-//                        SubCommentResponseDto.builder()
-//                                .id(subComment.getId())
-//                                .author(subComment.getMember().getNickname())
-//                                .content(subComment.getContent())
-//                                .likes(subComment.getLikes()) // 여기에 likes
-//                                .createdAt(subComment.getCreatedAt())
-//                                .modifiedAt(subComment.getModifiedAt())
-//                                .build());
-//            }
-//            commentResponseDtoList.add(
-//                    CommentResponseDto.builder()
-//                            .id(comment.getId())
-//                            .author(comment.getMember().getNickname())
-//                            .content(comment.getContent())
-//                            .subCommentResponseDtoList(subCommentResponseDtoList) // 여기에 대댓글 넣기
-//                            .likes(comment.getLikes()) // 여기에 likes
-//                            .createdAt(comment.getCreatedAt())
-//                            .modifiedAt(comment.getModifiedAt())
-//                            .build()
-//            );
-//
-//        }
-        // 게시글 Dto
-//        LikeResponseDto likeResponseDto = LikeResponseDto.builder()
-//                .id(post.getId())
-//                .title(post.getTitle())
-//                .content(post.getContent())
-//                .author(post.getMember().getNickname())
-//                .likes(post.getLikes()) // 여기에 likes
-//                .build();
-
         return ResponseDto.success("likeSuccess");
     }
     @Transactional
@@ -126,51 +79,13 @@ public class LikeService {
         if (null == comment) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
         }
-//        Like likePost = Like.builder()
-//                .member(member)
-//                .post(post)
-//                .build();
-//        likeRepository.save(likePost);
-//
-//        Long likes = likeRepository.countAllByPostId(post.getId());
-//
-//        post.updateLikes(likes);
-
         Like likeComment = Like.builder()
                 .member(comment.getMember())
                 .comment(comment)
                 .build();
         likeRepository.save(likeComment);
-
         Long likes = likeRepository.countAllByCommentId(comment.getId());
-
         comment.updateLikes(likes);
-
-
-
-//        List<SubComment> subCommentList = subCommentRepository.findAllByComment(comment);
-//        List<SubCommentResponseDto> subCommentResponseDtoList = new ArrayList<>();
-//
-//        for (SubComment subComment : subCommentList) {
-//            subCommentResponseDtoList.add(
-//                    SubCommentResponseDto.builder()
-//                            .id(subComment.getId())
-//                            .author(subComment.getMember().getNickname())
-//                            .content(subComment.getContent())
-//                            .likes(subComment.getLikes()) // 여기에 likes
-//                            .createdAt(subComment.getCreatedAt())
-//                            .modifiedAt(subComment.getModifiedAt())
-//                            .build()
-//            );
-//        }
-//        CommentResponseDto commentResponseDto = CommentResponseDto.builder()
-//                .id(comment.getId())
-//                .author(comment.getMember().getNickname())
-//                .content(comment.getContent())
-//                .likes(comment.getLikes()) // 여기에 likes
-//                .createdAt(comment.getCreatedAt())
-//                .modifiedAt(comment.getModifiedAt())
-//                .build();
         return ResponseDto.success("likeSuccess");
     }
     @Transactional
@@ -204,20 +119,7 @@ public class LikeService {
 
         // 해당 대댓글 likes 업데이트
         Long likes = likeRepository.countAllBySubCommentId(subComment.getId());
-
         subComment.updateLikes(likes);
-
-
-
-//        SubCommentResponseDto subCommentResponseDto = SubCommentResponseDto.builder()
-//                .id(subComment.getId())
-//                .author(subComment.getMember().getNickname())
-//                .content(subComment.getContent())
-//                .likes(subComment.getLikes()) // 여기에 likes
-//                .createdAt(subComment.getCreatedAt())
-//                .modifiedAt(subComment.getModifiedAt())
-//                .build();
-
         return ResponseDto.success("likeSuccess");
     }
 
@@ -241,8 +143,6 @@ public class LikeService {
         }
         // 해당 게시물의 like 수
         Long likesTotal = likeRepository.countAllByPostId(post.getId());
-
-
         // like 삭제
         if (likesTotal != 0) {
             likeRepository.deleteById(likesTotal);
@@ -250,18 +150,6 @@ public class LikeService {
         }
         Long likes = likeRepository.countAllByPostId(post.getId());
         post.updateLikes(likes);
-
-
-
-        // 게시글 Dto
-//        LikeResponseDto likeResponseDto = LikeResponseDto.builder()
-//                .id(post.getId())
-//                .title(post.getTitle())
-//                .content(post.getContent())
-//                .author(post.getMember().getNickname())
-//               //.commentResponseDtoList(commentResponseDtoList) // 여기에 댓글 Dto 리스트
-//                .likes(post.getLikes()) // 여기에 likes
-//                .build();
         return ResponseDto.success("UnlikeSuccess");
     }
 
@@ -298,17 +186,6 @@ public class LikeService {
         Long likes = likeRepository.countAllByCommentId(comment.getId());
         comment.updateLikes(likes);
         // like 업데이트
-
-
-
-//        CommentResponseDto commentResponseDto = CommentResponseDto.builder()
-//                .id(comment.getId())
-//                .author(comment.getMember().getNickname())
-//                .content(comment.getContent())
-//                .likes(comment.getLikes())
-//                .createdAt(comment.getCreatedAt())
-//                .modifiedAt(comment.getModifiedAt())
-//                .build();
         return ResponseDto.success("UnlikeSuccess");
     }
 
@@ -343,19 +220,7 @@ public class LikeService {
             Long likes = likeRepository.countAllBySubCommentId(subComment.getId());
             subComment.updateLikes(likes);
         }
-
-
-
-//        SubCommentResponseDto subCommentResponseDto = SubCommentResponseDto.builder()
-//                .id(subComment.getId())
-//                .author(subComment.getMember().getNickname())
-//                .content(subComment.getContent())
-//                .likes(subComment.getLikes()) // 여기에 likes
-//                .createdAt(subComment.getCreatedAt())
-//                .modifiedAt(subComment.getModifiedAt())
-//                .build();
-
-        return ResponseDto.success("UnlikeSuccess");
+       return ResponseDto.success("UnlikeSuccess");
     }
 
     @Transactional
